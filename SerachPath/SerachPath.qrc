@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/SerachPath">
+        <file>Resources/findPath.png</file>
+        <file>Resources/getPath.png</file>
+        <file>Resources/help.png</file>
+        <file>Resources/openFile.png</file>
+        <file>Resources/saveFile.png</file>
+        <file>Resources/setMode.png</file>
+        <file>Resources/blank.png</file>
+        <file>Resources/end.png</file>
+        <file>Resources/keyPath.png</file>
+        <file>Resources/path.png</file>
+        <file>Resources/start.png</file>
+        <file>Resources/wall.png</file>
+        <file>Resources/icon.ico</file>
+        <file>Resources/setSpeed.png</file>
+    </qresource>
+</RCC>

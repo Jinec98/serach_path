@@ -1,0 +1,21 @@
+20 19
+S XX XXXX XX   XXXX
+  X  X  X XXXX  XXX
+X XX  X X XX  X  X 
+    X X   X X X  XX
+XXX     XXX X  X  X
+X    X X XX  X  X  
+XXX       XX  X   X
+XX   XXXX  X XXX XX
+XXXX  XX  XX   X   
+  XX  XXX  XXX   XX
+       X  XXXXX X X
+XXX XXXXX  XXX  XXX
+XX   XXXXX   XX  XX
+X  XXXX    XXXXX  X
+XX   XXXXX XX X   X
+XXXX  X      X  X X
+XX   XXXXXX  XX  XX
+XXXX    XXXX  X  XX
+XXXX XXXXXXX XX    
+XXX     D        XX
