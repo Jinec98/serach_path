@@ -1,11 +1,14 @@
 #pragma once
 
 #include <string>
+#include <QDialog>
 #include <QThread>
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QtWidgets/QMainWindow>
 #include <QGridLayout>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include <QToolBar>
 #include <QAction>
 #include <QComboBox>
@@ -16,11 +19,15 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include "SerachPath.h"
+#include "childWindow.h"
 #include "myFile.h"
 #include "myAlgorithm.h"
 #include "Point.h"
 #include "Maze.h"
 //#include "ui_SerachPath.h"
+
+inline QString s2q(const std::string &s);
+inline std::string q2s(const QString &s);
 
 class SerachPath : public QMainWindow
 {
@@ -30,6 +37,7 @@ public:
 	SerachPath(QWidget *parent = Q_NULLPTR);
 	~SerachPath();
 private slots:
+	void makeMazeActionSlot();
 	void openFileActionSlot();
 	void findPathActionSlot();
 	void getPathActionSlot();
@@ -63,6 +71,7 @@ private:
 	QIcon icon;
 	QLabel * initLabel;
 
+	QToolBar * makeMazeTool;
 	QToolBar * openFileTool;
 	QToolBar * findPathTool;
 	QToolBar * getPathTool;
@@ -71,6 +80,7 @@ private:
 	QToolBar * setModeTool;
 	QToolBar * setSpeedTool;
 
+	QAction * makeMazeAction;
 	QAction * openFileAction;
 	QAction * findPathAction;
 	QAction * getPathAction;

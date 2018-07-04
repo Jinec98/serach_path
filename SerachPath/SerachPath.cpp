@@ -156,6 +156,7 @@ void SerachPath::setWindow()
 void SerachPath::createToolBar()
 {
 	//初始化工具栏的信号槽
+	makeMazeAction = new QAction(QIcon(":/SerachPath/Resources/add.png"), s2q("创建迷宫"), this);
 	openFileAction = new QAction(QIcon(":/SerachPath/Resources/openFile.png"), s2q("打开文件"), this);
 	findPathAction = new QAction(QIcon(":/SerachPath/Resources/findPath.png"), s2q("寻找路径"), this);
 	getPathAction = new QAction(QIcon(":/SerachPath/Resources/getPath.png"), s2q("得到路径"), this);
@@ -164,6 +165,7 @@ void SerachPath::createToolBar()
 	setSpeedAction = new QAction(QIcon(":/SerachPath/Resources/setSpeed.png"), s2q("显示速度"), this);
 
 	//连接工具栏的按钮和信号槽
+	connect(makeMazeAction, &QAction::triggered, this, &SerachPath::makeMazeActionSlot);
 	connect(openFileAction, &QAction::triggered, this, &SerachPath::openFileActionSlot);
 	connect(findPathAction, &QAction::triggered, this, &SerachPath::findPathActionSlot);
 	connect(getPathAction, &QAction::triggered, this, &SerachPath::getPathActionSlot);
@@ -171,6 +173,9 @@ void SerachPath::createToolBar()
 	connect(helpAction, &QAction::triggered, this, &SerachPath::helpActionSlot);
 
 	//初始化工具栏的按钮
+	makeMazeTool = addToolBar("Create Maze");
+	makeMazeTool->addAction(makeMazeAction);
+
 	openFileTool = addToolBar("Open File");
 	openFileTool->addAction(openFileAction);
 
@@ -205,6 +210,12 @@ void SerachPath::createToolBar()
 	setMode->addItem(QIcon(":/SerachPath/Resources/setMode.png"), bfs);
 	setMode->addItem(QIcon(":/SerachPath/Resources/setMode.png"), astar);
 	setModeTool->addWidget(setMode);
+}
+
+void SerachPath::makeMazeActionSlot()
+{
+	setMazeWindow *setMaze = new setMazeWindow(this);
+	setMaze->show();
 }
 
 //打开文件信号槽

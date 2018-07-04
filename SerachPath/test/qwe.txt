@@ -1,0 +1,9 @@
+8 5
+SXXXX
+    X
+X XXX
+X   X
+XXX X
+X   X
+X XXX
+X   D

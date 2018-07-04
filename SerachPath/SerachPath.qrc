@@ -6,13 +6,18 @@
         <file>Resources/openFile.png</file>
         <file>Resources/saveFile.png</file>
         <file>Resources/setMode.png</file>
-        <file>Resources/blank.png</file>
-        <file>Resources/end.png</file>
         <file>Resources/keyPath.png</file>
         <file>Resources/path.png</file>
-        <file>Resources/start.png</file>
-        <file>Resources/wall.png</file>
         <file>Resources/icon.ico</file>
         <file>Resources/setSpeed.png</file>
+        <file>Resources/add.png</file>
+        <file>Resources/blank.png</file>
+        <file>Resources/blank_maker.png</file>
+        <file>Resources/end.png</file>
+        <file>Resources/end_maker.png</file>
+        <file>Resources/start.png</file>
+        <file>Resources/start_maker.png</file>
+        <file>Resources/wall.png</file>
+        <file>Resources/wall_maker.png</file>
     </qresource>
 </RCC>
