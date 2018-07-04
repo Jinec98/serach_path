@@ -56,12 +56,24 @@ setMazeWindow::~setMazeWindow()
 
 void setMazeWindow::commitBtnSlot()
 {
-	int rows = rowsText->text().toInt();
-	int cols = colsText->text().toInt();
-	string name = nameText->text().toStdString();
-	makeMazeWindow *setMaze = new makeMazeWindow(cols, rows, name);
-	setMaze->show();
-	close();
+	QString rowsStr = rowsText->text();
+	QString colsStr = colsText->text();
+	QString nameStr = nameText->text();
+	if (rowsStr.isEmpty() || colsStr.isEmpty() || nameStr.isEmpty())
+	{
+		QMessageBox::critical(this, s2q("错误"), s2q("输入不能为空！"), QMessageBox::Ok);
+		return;
+	}	
+	else
+	{
+		int rows = rowsStr.toInt();
+		int cols = colsStr.toInt();
+		string name = q2s(nameStr);
+
+		makeMazeWindow *setMaze = new makeMazeWindow(cols, rows, name);
+		setMaze->show();
+		close();
+	}
 }
 
 makeMazeWindow::makeMazeWindow(QWidget *parent) :QWidget(parent)
@@ -125,7 +137,8 @@ makeMazeWindow::makeMazeWindow(int cols, int rows, string name, QWidget *parent)
 	modeLabel[3]->setPixmap(blank);
 	leftLayout->addWidget(modeBtn[3]);
 	leftLayout->addWidget(modeLabel[3]);
-	QPushButton *commitBtn = new QPushButton(s2q("确认"));
+	QPushButton *commitBtn = new QPushButton(s2q("保存"));
+	commitBtn->setFixedSize(100,50);
 	leftLayout->addWidget(commitBtn);
 	connect(commitBtn, &QPushButton::clicked, this, &makeMazeWindow::commitBtnSlot);
 	leftWidget->setLayout(leftLayout);
@@ -143,8 +156,13 @@ void makeMazeWindow::paintEvent(QPaintEvent *event)
 	iconEdge = min(widgetWidth / rows, widgetHeight / cols);
 	iconSize = QSize(iconEdge, iconEdge);
 	painter.setRenderHint(QPainter::Antialiasing, true); // 抗锯齿
-
+	QPen pen;
+	pen.setWidth(5);
+	painter.setPen(pen);
+	painter.drawLine(this->width() - widgetWidth - 60, 0, this->width() - widgetWidth - 60, this->height());
 	painter.fillRect(QRect(this->width() - widgetWidth - 10, 10, iconSize.width()*cols, iconSize.height()*rows), QBrush(Qt::white));
+	pen.setWidth(2);
+	painter.setPen(pen);
 	for (int i = 0; i < cols + 1; i++)
 		painter.drawLine(this->width() - widgetWidth - 10 + i * iconSize.width(), 10, this->width() - widgetWidth - 10 + i * iconSize.width(), 10 + iconSize.height()*rows);
 	for (int i = 0; i < rows + 1; i++)
@@ -243,7 +261,22 @@ void makeMazeWindow::commitBtnSlot()
 {
 	if (startFlag && endFlag)
 	{
-		ofstream writeFile("./test/" + name + ".txt");
+		QFileDialog *fileDialog = new QFileDialog(this);
+		fileDialog->setWindowTitle("Open Directory");
+		fileDialog->setFileMode(QFileDialog::Directory);
+		fileDialog->setViewMode(QFileDialog::Detail);
+
+		string directoryPath;
+		//判断文件是否正常打开
+		if (fileDialog->exec())
+		{
+			QString fullPath = fileDialog->selectedFiles()[0];
+			directoryPath = q2s(fullPath);
+		}
+		else
+			return;
+
+		ofstream writeFile(directoryPath + "/" + name + ".txt");
 		writeFile << rows << " " << cols << "\n";
 		for (int i = 0; i < rows; i++)
 		{

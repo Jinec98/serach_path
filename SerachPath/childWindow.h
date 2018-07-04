@@ -15,8 +15,10 @@
 #include <QIcon>
 #include <QSize>
 #include <QPainter>
+#include <QPen>
 #include <QMessageBox>
 #include <QMouseEvent>
+#include <QFileDialog>
 #include <string>
 #include <cstring>
 #include <algorithm>
