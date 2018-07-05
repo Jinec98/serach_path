@@ -19,5 +19,6 @@
         <file>Resources/start_maker.png</file>
         <file>Resources/wall.png</file>
         <file>Resources/wall_maker.png</file>
+        <file>Resources/setupIcon.ico</file>
     </qresource>
 </RCC>

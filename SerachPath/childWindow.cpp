@@ -21,20 +21,19 @@ setMazeWindow::setMazeWindow(QWidget *parent) : QDialog(parent)
 	setWindowOpacity(0.9);
 	setFixedSize(220, 200);
 
-	colsLabel = new QLabel(s2q("迷宫长度："));
-	colsLabel->setGeometry(20, 20, 80, 20);
-	colsLabel->setParent(this);
-	colsText = new QLineEdit;
-	colsText->setGeometry(100, 20, 100, 20);
-	colsText->setParent(this);
-
-
-	rowsLabel = new QLabel(s2q("迷宫宽度："));
-	rowsLabel->setGeometry(20, 60, 80, 20);
+	rowsLabel = new QLabel(s2q("迷宫行数："));
+	rowsLabel->setGeometry(20, 20, 80, 20);
 	rowsLabel->setParent(this);
 	rowsText = new QLineEdit;
-	rowsText->setGeometry(100, 60, 100, 20);
+	rowsText->setGeometry(100, 20, 100, 20);
 	rowsText->setParent(this);
+
+	colsLabel = new QLabel(s2q("迷宫列数："));
+	colsLabel->setGeometry(20, 60, 80, 20);
+	colsLabel->setParent(this);
+	colsText = new QLineEdit;
+	colsText->setGeometry(100, 60, 100, 20);
+	colsText->setParent(this);
 
 	nameLabel = new QLabel(s2q("迷宫名称："));
 	nameLabel->setGeometry(20, 100, 80, 20);
@@ -100,7 +99,7 @@ makeMazeWindow::makeMazeWindow(int cols, int rows, string name, QWidget *parent)
 
 	QIcon icon;
 	icon.addFile(QStringLiteral(":/SerachPath/Resources/icon.ico"), QSize(), QIcon::Normal, QIcon::Off);
-	setWindowTitle(QObject::tr("SerachPath@Jinec"));
+	setWindowTitle(s2q("SerachPath_MazeCreater@Jinec"));
 	setWindowIcon(icon);
 	setWindowOpacity(0.9);
 	setMouseTracking(true);
@@ -125,6 +124,14 @@ makeMazeWindow::makeMazeWindow(int cols, int rows, string name, QWidget *parent)
 		modeLabel[i] = new QLabel();
 		modeGroup->addButton(modeBtn[i], i);
 	}
+	QLabel *setModeStr1 = new QLabel(s2q("选择目标后，\n点击右侧网格即可。"));
+	QLabel *setModeStr2 = new QLabel(s2q("选择目标："));
+	QFont font1("Microsoft YaHei", 12, 75);
+	QFont font2("Microsoft YaHei", 18, 75);
+	setModeStr1->setFont(font1);
+	setModeStr2->setFont(font2);
+	leftLayout->addWidget(setModeStr1);
+	leftLayout->addWidget(setModeStr2);
 	modeLabel[0]->setPixmap(start);
 	leftLayout->addWidget(modeBtn[0]);
 	leftLayout->addWidget(modeLabel[0]);
@@ -261,6 +268,8 @@ void makeMazeWindow::commitBtnSlot()
 {
 	if (startFlag && endFlag)
 	{
+		QMessageBox::information(this, s2q("提示"), s2q("若程序安装在C盘默认路径下，则需保存至其他目录！"), QMessageBox::Ok);
+
 		QFileDialog *fileDialog = new QFileDialog(this);
 		fileDialog->setWindowTitle("Open Directory");
 		fileDialog->setFileMode(QFileDialog::Directory);

@@ -16,6 +16,7 @@
 #include <QSize>
 #include <QPainter>
 #include <QPen>
+#include <QFont>
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QFileDialog>
