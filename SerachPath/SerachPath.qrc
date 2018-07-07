@@ -20,5 +20,6 @@
         <file>Resources/wall.png</file>
         <file>Resources/wall_maker.png</file>
         <file>Resources/setupIcon.ico</file>
+        <file>Resources/generate.png</file>
     </qresource>
 </RCC>

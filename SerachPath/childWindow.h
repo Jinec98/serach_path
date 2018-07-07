@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <QDialog>
 #include <QtWidgets/QMainWindow>
 #include <QLabel>
@@ -21,9 +20,11 @@
 #include <QMouseEvent>
 #include <QFileDialog>
 #include <string>
-#include <cstring>
 #include <algorithm>
 #include <fstream>
+#include <stack>
+#include <vector>
+#include <ctime>
 
 using namespace std;
 
@@ -89,4 +90,54 @@ protected:
 
 private slots:
 	void commitBtnSlot();
+};
+
+class generateMazeWinodw : public QDialog
+{
+	Q_OBJECT
+
+public:
+	explicit generateMazeWinodw(QWidget *parent = 0);
+	~generateMazeWinodw();
+
+private slots:
+	void commitBtnSlot();
+
+private:
+	QRadioButton * mazeSizeBtn[6];
+	QButtonGroup * mazeSizeGroup;
+	QLabel * customMultiLabel;
+	QLineEdit * customSizeRowsText;
+	QLineEdit * customSizeColsText;
+	QLabel * nameLabel;
+	QLineEdit * nameText;
+	QPushButton * commitBtn;
+
+	class generateMaze
+	{
+	public:
+		generateMaze(int rows, int cols);
+		~generateMaze();
+
+		int dirRand();
+		void genMaze();
+		void outputMaze(string directoryPath, string name);
+
+	private:
+		struct Gird
+		{
+			bool cell;
+			bool dig;
+		}**maze;
+		struct Point
+		{
+			int row;
+			int col;
+		};
+		int rows, cols;
+		string **mazeStr;
+		stack<Point> mazeStack;
+		vector<int> dirList;
+	};
+	generateMaze * GenerateMaze;
 };

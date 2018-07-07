@@ -302,6 +302,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -318,6 +326,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -1341,15 +1365,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SerachPath"
-        "ProductCode" = "8:{92059F5A-BEEA-4FF2-A3B9-C357BC758A7E}"
-        "PackageCode" = "8:{CD31F1C5-3B96-4179-9106-826165D8E27E}"
+        "ProductCode" = "8:{6C214B09-6C79-4B49-9DDB-EA17117B1DC9}"
+        "PackageCode" = "8:{873571FC-3B12-4B8E-9ACD-5675F521A92C}"
         "UpgradeCode" = "8:{6C5FEC0C-EFC6-45FA-8F8F-EE3D94A5DE86}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:3.1.5"
+        "ProductVersion" = "8:3.1.8"
         "Manufacturer" = "8:Jinec"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

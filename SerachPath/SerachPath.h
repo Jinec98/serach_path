@@ -38,6 +38,7 @@ public:
 	~SerachPath();
 private slots:
 	void makeMazeActionSlot();
+	void generateMazeActionSlot();
 	void openFileActionSlot();
 	void findPathActionSlot();
 	void getPathActionSlot();
@@ -72,6 +73,7 @@ private:
 	QLabel * initLabel;
 
 	QToolBar * makeMazeTool;
+	QToolBar * generateMazeTool;
 	QToolBar * openFileTool;
 	QToolBar * findPathTool;
 	QToolBar * getPathTool;
@@ -81,6 +83,7 @@ private:
 	QToolBar * setSpeedTool;
 
 	QAction * makeMazeAction;
+	QAction * generateMazeAction;
 	QAction * openFileAction;
 	QAction * findPathAction;
 	QAction * getPathAction;
