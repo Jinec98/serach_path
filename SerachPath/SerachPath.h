@@ -24,7 +24,7 @@
 #include "myAlgorithm.h"
 #include "Point.h"
 #include "Maze.h"
-//#include "ui_SerachPath.h"
+#include <qdebug.h>
 
 inline QString s2q(const std::string &s);
 inline std::string q2s(const QString &s);
@@ -46,7 +46,6 @@ private slots:
 	void helpActionSlot();
 	
 private:
-	//Ui::SerachPathClass ui;
 	void createToolBar();
 	void initWindow();
 	void setWindow();
@@ -114,13 +113,17 @@ private:
 	Maze bfsMaze;
 	Maze dfsMaze;
 	Maze astarMaze;
+	Maze idastarMaze;
 	dfs Dfs;
 	bfs Bfs;
 	aStar Astar;
+	idaStar IDAstar;
 	Point * dfsResult = NULL;
 	Point * bfsResult = NULL;
 	Point * astarResult = NULL;
+	Point * idastarResult = NULL;
 	list<Point*> dfsPath;
 	list<Point*> bfsPath;
 	list<Point*> astarPath;
+	list<Point*> idastarPath;
 };

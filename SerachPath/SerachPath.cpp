@@ -18,7 +18,6 @@ SerachPath::SerachPath(QWidget *parent)
 {
 	initWindow();
 	createToolBar();
-	//ui.setupUi(this);
 }
 SerachPath::~SerachPath()
 {
@@ -33,7 +32,7 @@ void SerachPath::initWindow()
 
 	setWindowTitle(QObject::tr("SerachPath@Jinec"));
 	setWindowIcon(icon);
-	setFixedSize(780, 600);
+	setFixedSize(850, 600);
 	setWindowOpacity(0.9);
 
 	//设置窗口布局
@@ -63,17 +62,17 @@ void SerachPath::initWindow()
 	//初始界面的label
 	initLabel = new QLabel();
 	std::string infoText;
-	infoText += "\t\t\t本程序为“最短路径求取动态演示”所开发\n\n\n";
+	infoText += "\t\t\t\t本程序为“最短路径求取动态演示”所开发\n\n\n";
 	infoText += "对于本程序：\n\n";
-	infoText += "        运用深度优先搜索（DFS）、广度优先搜索（BFS）、基于曼哈顿距离的启发式搜索（Astar）算法，\n";
-	infoText += "可在迷宫中搜索从起点到终点的路径，并显示搜索的步骤及最佳路径。\n";
+	infoText += "        运用深度优先搜索算法（DFS）、广度优先搜索算法（BFS）、基于曼哈顿距离的启发式搜索算法（Astar）、\n基于曼哈顿距离的迭代加深启发式搜索算法（IDAstar），";
+	infoText += "可在迷宫中搜索从起点到终点的路径，并显示搜索的步骤\n及最佳路径。\n";
 	infoText += "        在数据结构方面，运用了链表、栈、队列、树、STL（list、vector、stack、queue）等相关知识；\n";
-	infoText += "        在C++方面，体现继承、封装、多态的思想，运用了多文件部署、内部类、拷贝构造、运算符重载、\n内联函数、文件输入输出流、指针与引用等相关知识；\n";
+	infoText += "        在C++方面，体现继承、封装、多态的思想，运用了多文件部署、内部类、纯虚函数、拷贝构造函数、运算符\n重载、内联函数、文件输入输出流、指针与引用等相关知识；\n";
 	infoText += "        在QT方面，运用了窗口、布局、控件、信号槽、对话框、多线程等相关知识。\n\n";
-	infoText += "        由于迷宫的大小规模未知，窗口界面大小为算法计算得出，因此在迷宫规模为5*5-30*30下程序显示\n最佳。注意：迷宫最大规模不可超过50*50。";
-	infoText += "如若是第一次运行本程序，建议先点击“帮助”了解程序的\n相关操作。\n\n\n";
+	infoText += "        由于迷宫的大小规模未知，窗口界面大小为算法计算得出，因此在迷宫规模为5*5-30*30下程序显示最佳。\n注意：迷宫最大规模不可超过50*50。";
+	infoText += "如若是第一次运行本程序，建议先点击“帮助”了解程序的相关操作。\n\n\n";
 	infoText += "程序基本流程为：\n";
-	infoText += "    创建迷宫/生成迷宫->打开文件->设置显示速度->设置搜索算法->寻找路径->得到最短路径->保存文件\n";
+	infoText += "        创建迷宫/生成迷宫->打开文件->设置显示速度->设置搜索算法->寻找路径->得到最短路径->保存文件\n";
 	infoText += "\t（程序根目录下 / test中含有迷宫测试样例，若直接打开可跳过“创建迷宫”或“生成迷宫”）\n\n";
 	infoText += "如遇BUG敬请谅解，并可与我联系╮(﹀_﹀)╭\n\n";
 	infoText += "作者：@Jinec\t\t\tQQ：389468296";
@@ -213,9 +212,11 @@ void SerachPath::createToolBar()
 	QString dfs = s2q("深度优先搜索（DFS）");
 	QString bfs = s2q("广度优先搜索（BFS）");
 	QString astar = s2q("启发式搜索（A*）");
+	QString idastar = s2q("迭代加深启发式搜索（IDA*）");
 	setMode->addItem(QIcon(":/SerachPath/Resources/setMode.png"), dfs);
 	setMode->addItem(QIcon(":/SerachPath/Resources/setMode.png"), bfs);
 	setMode->addItem(QIcon(":/SerachPath/Resources/setMode.png"), astar);
+	setMode->addItem(QIcon(":/SerachPath/Resources/setMode.png"), idastar);
 	setModeTool->addWidget(setMode);
 }
 
@@ -332,6 +333,25 @@ void SerachPath::findPathActionSlot()
 		QString infoStr = s2q(stepInfo);
 		QMessageBox::information(this, s2q("完成"), infoStr, QMessageBox::Ok);
 	}
+	else if (setMode->currentIndex() == 3)
+	{
+		idastarMaze = Maze(*maze);
+		IDAstar = idaStar(idastarMaze);
+		idastarResult = IDAstar.findPath(idastarMaze.startPoint, idastarMaze.endPoint);
+		showMap(*maze);
+		printPath(idastarMaze, IDAstar.step);
+
+		if (idastarResult == NULL)
+		{
+			QString infoStr = s2q("寻找不到通往终点的路径");
+			QMessageBox::warning(this, s2q("失败"), infoStr, QMessageBox::Ok);
+			return;
+		}
+
+		std::string stepInfo = "通过迭代加深启发式搜索算法，一共耗费了：" + to_string(-IDAstar.step) + "步";
+		QString infoStr = s2q(stepInfo);
+		QMessageBox::information(this, s2q("完成"), infoStr, QMessageBox::Ok);
+	}
 
 }
 
@@ -387,6 +407,22 @@ void SerachPath::getPathActionSlot()
 		QString infoStr = s2q(stepInfo);
 		QMessageBox::information(this, s2q("完成"), infoStr, QMessageBox::Ok);
 	}
+	else if (setMode->currentIndex() == 3)
+	{
+		if (idastarResult == NULL)
+		{
+			QString infoStr = s2q("请先开始寻找路径");
+			QMessageBox::critical(this, s2q("错误"), infoStr, QMessageBox::Ok);
+			return;
+		}
+		idastarPath = IDAstar.getPath(idastarResult);
+		showMap(idastarMaze);
+		printKeyPath(idastarMaze, IDAstar.keyStep);
+
+		std::string stepInfo = "通过迭代加深启发式搜索算法得到的最佳路径需要：" + to_string(IDAstar.keyStep - 10) + "步";
+		QString infoStr = s2q(stepInfo);
+		QMessageBox::information(this, s2q("完成"), infoStr, QMessageBox::Ok);
+	}
 }
 
 //保存文件信号槽
@@ -431,6 +467,18 @@ void SerachPath::saveFileActionSlot()
 		fileWrite = new writeFile(filePath, &astarMaze);
 		fileWrite->writeMaze(astarPath, to_string(Astar.keyStep - 10));
 	}
+	else if (setMode->currentIndex() == 3)
+	{
+		if (idastarPath.empty())
+		{
+			QString infoStr = s2q("请先得到最佳路径");
+			QMessageBox::critical(this, s2q("错误"), infoStr, QMessageBox::Ok);
+			return;
+		}
+		filePath += "/idastarPath_" + fileName;
+		fileWrite = new writeFile(filePath, &idastarMaze);
+		fileWrite->writeMaze(idastarPath, to_string(IDAstar.keyStep - 10));
+	}
 	
 	QString infoStr = s2q("文件保存成功\n文件保存在打开的文件的目录下");
 	QMessageBox::information(this, s2q("成功"), infoStr, QMessageBox::Ok);
@@ -440,7 +488,7 @@ void SerachPath::saveFileActionSlot()
 void SerachPath::helpActionSlot()
 {
 	std::string infoText;
-	infoText = "本程序运用DFS、BFS、Astar算法，在迷宫中搜索从起点到终点的路径，能够显示搜索的步骤以及最佳路径。\n\n\n";
+	infoText = "本程序运用DFS、BFS、Astar、IDAstar算法，在迷宫中搜索从起点到终点的路径，能够显示搜索的步骤以及最佳路径。\n\n\n";
 	infoText += "本程序基本说明：\n\n";
 	infoText += "1、点击“创建迷宫”\t进入迷宫创造界面\n";
 	infoText += "\t输入所创造的迷宫的行列及名称，迷宫最大规模不可超过50*50，在迷宫创建界面中通过鼠标点击创建迷宫，最终选择目录保存文件。";
@@ -455,7 +503,7 @@ void SerachPath::helpActionSlot()
 	infoText += "4、滑动“显示速度”拉杆\t速度范围（0-500ms）\n";
 	infoText += "\t可调节每一步骤显示的速度。如果迷宫规模较大，建议将速度初始值先调大。\n\n";
 	infoText += "5、设置“搜索算法”\t工具栏最后一项\n";
-	infoText += "\t共有三种算法可供选择：\t深度优先搜索（DFS）、广度优先搜索（BFS）、启发式搜索（Astar）。\n\n";
+	infoText += "\t共有四种算法可供选择：\t深度优先搜索（DFS）、广度优先搜索（BFS）、启发式搜索（Astar）、迭代加深启发式搜索（IDAstar）。\n\n";
 	infoText += "6、点击“寻找路径”\t需先打开文件\n";
 	infoText += "\t可通过设置好的算法在迷宫中逐步寻找从起点到终点的路径。";
 	infoText += "探寻的方向为右→、上↑、左←、下↓，若无可行路径则会弹出消息提示。\n\n";

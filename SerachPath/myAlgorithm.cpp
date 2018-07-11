@@ -1,13 +1,25 @@
 #include "myAlgorithm.h"
 
-bfs::bfs() {};
-//bfs类的构造函数，传入Maze类型的引用
-bfs::bfs(Maze &m)
+myAlgorithm::myAlgorithm() {}
+
+myAlgorithm::myAlgorithm(Maze &maze)
 {
 	step = -1;
 	keyStep = 11;
-	this->m = m;
+	this->maze = maze;
 }
+
+myAlgorithm::~myAlgorithm() {}
+
+//Point* myAlgorithm::findPath(Point &startPoint, Point &endPoint) {}
+//list<Point*> myAlgorithm::getPath(Point *result) {}
+//vector<Point*> myAlgorithm::getSurroundPoints(const Point *point) const {}
+//bool myAlgorithm::isCanReach(const Point *point, const Point *target) const {}
+
+//bfs类的构造函数，传入Maze类型的引用
+bfs::bfs() {}
+bfs::bfs(Maze &maze) : myAlgorithm(maze) {}
+bfs::~bfs() {}
 
 //广度优先搜索的核心代码，用于搜索路径，传入起点和终点的引用
 Point* bfs::findPath(Point &startPoint, Point &endPoint)
@@ -27,7 +39,7 @@ Point* bfs::findPath(Point &startPoint, Point &endPoint)
 			continue;
 		}
 		//将这个点进行标记，并用计数器step表示遍历的是第几个点
-		if (curPoint->x != m.startPoint.x || curPoint->y != m.startPoint.y)
+		if (curPoint->x != maze.startPoint.x || curPoint->y != maze.startPoint.y)
 		{
 			curPoint->n = step;
 			step--;
@@ -61,7 +73,7 @@ list<Point*> bfs::getPath(Point *result)
 	while (result)
 	{
 		//运用了树和链表的思想从终点开始遍历parent指针
-		if ((result->x != m.startPoint.x || result->y != m.startPoint.y) && (result->x != m.endPoint.x || result->y != m.endPoint.y))
+		if ((result->x != maze.startPoint.x || result->y != maze.startPoint.y) && (result->x != maze.endPoint.x || result->y != maze.endPoint.y))
 		{
 			result->n = keyStep;
 			keyStep++;
@@ -87,9 +99,9 @@ vector<Point*> bfs::getSurroundPoints(const Point *point) const
 		int x = point->x + dx[i];
 		int y = point->y + dy[i];
 		//判断该点能否到达，若能则加入vector
-		if (isCanReach(point, m.Map[x][y]))
+		if (isCanReach(point, maze.Map[x][y]))
 		{
-			surroundPoints.push_back(m.Map[x][y]);
+			surroundPoints.push_back(maze.Map[x][y]);
 		}
 
 	}
@@ -100,7 +112,7 @@ vector<Point*> bfs::getSurroundPoints(const Point *point) const
 //用于判断某个点能否到达目标点
 bool bfs::isCanReach(const Point *point, const Point *target) const
 {
-	if ((target->n == 0 || target->n == 3) && target->x >= 1 && target->x <= m.rows && target->y >= 1 && target->y <= m.cols)
+	if ((target->n == 0 || target->n == 3) && target->x >= 1 && target->x <= maze.rows && target->y >= 1 && target->y <= maze.cols)
 		return true;
 	return false;
 }
@@ -108,14 +120,10 @@ bool bfs::isCanReach(const Point *point, const Point *target) const
 
 //深度优先搜索运用了栈
 stack<Point*> s;
-dfs::dfs() {};
 //dfs类的构造函数
-dfs::dfs(Maze &m)
-{
-	step = -1;
-	keyStep = 11;
-	this->m = m;
-}
+dfs::dfs() {}
+dfs::dfs(Maze &maze) : myAlgorithm(maze) {}
+dfs::~dfs() {}
 
 //深度优先搜索算法的核心代码，用于寻找路径，传入的是当前点和终点的引用
 Point* dfs::findPath(Point &curPoint, Point &endPoint)
@@ -128,7 +136,7 @@ Point* dfs::findPath(Point &curPoint, Point &endPoint)
 		return NULL;
 	}
 	//将这个点进行标记，并用计数器step表示遍历的是第几个点
-	if (curPoint.x != m.startPoint.x || curPoint.y != m.startPoint.y)
+	if (curPoint.x != maze.startPoint.x || curPoint.y != maze.startPoint.y)
 	{
 		curPoint.n = step;
 		step--;
@@ -162,7 +170,7 @@ list<Point*> dfs::getPath(Point *result)
 	list<Point*> path;
 	while (result)
 	{
-		if ((result->x != m.startPoint.x || result->y != m.startPoint.y) && (result->x != m.endPoint.x || result->y != m.endPoint.y))
+		if ((result->x != maze.startPoint.x || result->y != maze.startPoint.y) && (result->x != maze.endPoint.x || result->y != maze.endPoint.y))
 		{
 			result->n = keyStep;
 			keyStep++;
@@ -187,9 +195,9 @@ vector<Point*> dfs::getSurroundPoints(const Point *point) const
 	{
 		int x = point->x + dx[i];
 		int y = point->y + dy[i];
-		if (isCanReach(point, m.Map[x][y]))
+		if (isCanReach(point, maze.Map[x][y]))
 		{
-			surroundPoints.push_back(m.Map[x][y]);
+			surroundPoints.push_back(maze.Map[x][y]);
 		}
 	}
 
@@ -199,24 +207,17 @@ vector<Point*> dfs::getSurroundPoints(const Point *point) const
 //用于判断当前点能否到达目标点
 bool dfs::isCanReach(const Point *point, const Point *target) const
 {
-	if ((target->n == 0 || target->n == 3) && target->x >= 1 && target->x <= m.rows && target->y >= 1 && target->y <= m.cols)
+	if ((target->n == 0 || target->n == 3) && target->x >= 1 && target->x <= maze.rows && target->y >= 1 && target->y <= maze.cols)
 		return true;
 	return false;
 }
 
 
-aStar::aStar() {};
-//aStar类的构造函数
-aStar::aStar(Maze &m)
-{
-	step = -1;
-	keyStep = 11;
-	this->m = m;
-}
-aStar::~aStar()
-{
 
-}
+//aStar类的构造函数
+aStar::aStar() {}
+aStar::aStar(Maze &maze) : myAlgorithm(maze) {}
+aStar::~aStar() {}
 
 //用于计算A*算法中的g(n)
 int aStar::calcG(Point *point)
@@ -265,7 +266,7 @@ Point* aStar::findPath(Point &startPoint, Point &endPoint)
 		//得到openList中f值最小的点
 		Point* curPoint = getLeastFPoint();
 		//将这个点进行标记，并用计数器step表示遍历的是第几个点
-		if (curPoint->x != m.startPoint.x || curPoint->y != m.startPoint.y)
+		if (curPoint->x != maze.startPoint.x || curPoint->y != maze.startPoint.y)
 		{
 			curPoint->n = step;
 			step--;
@@ -320,7 +321,7 @@ list<Point*> aStar::getPath(Point *result)
 	list<Point*> path;
 	while (result)
 	{
-		if ((result->x != m.startPoint.x || result->y != m.startPoint.y) && (result->x != m.endPoint.x || result->y != m.endPoint.y))
+		if ((result->x != maze.startPoint.x || result->y != maze.startPoint.y) && (result->x != maze.endPoint.x || result->y != maze.endPoint.y))
 		{
 			result->n = keyStep;
 			keyStep++;
@@ -343,7 +344,7 @@ Point* aStar::isInList(list<Point*> thisList, const Point *point) const
 //用于判断某个点是否能够到达目标点
 bool aStar::isCanReach(const Point *point, const Point *target) const
 {
-	if (target->x<0 || target->x>m.rows || target->y<0 || target->y>m.cols || m.Map[target->x][target->y]->n == 1 || (target->x == point->x && target->y == point->y) || isInList(closeList, target))
+	if (target->x<0 || target->x>maze.rows || target->y<0 || target->y>maze.cols || maze.Map[target->x][target->y]->n == 1 || (target->x == point->x && target->y == point->y) || isInList(closeList, target))
 		return false;
 	else if (abs(point->x - target->x) + abs(point->y - target->y) == 1)
 	{
@@ -365,12 +366,176 @@ vector<Point*> aStar::getSurroundPoints(const Point *point) const
 	{
 		int x = point->x + dx[i];
 		int y = point->y + dy[i];
-		if (isCanReach(point, m.Map[x][y]))
+		if (isCanReach(point, maze.Map[x][y]))
 		{
-			surroundPoints.push_back(m.Map[x][y]);
+			surroundPoints.push_back(maze.Map[x][y]);
 		}
 
 	}
 
 	return surroundPoints;
 }
+
+idaStar::idaStar() {}
+idaStar::idaStar(Maze &maze) : myAlgorithm(maze) {}
+idaStar::~idaStar() {}
+
+//用于计算IDA*算法中的g(n)
+int idaStar::calcG(Point *point)
+{
+	int thisG = 1;
+	int parentG = point->parent == NULL ? 0 : point->parent->G;
+	return thisG + parentG;
+}
+
+//用于计算IDA*算法中的h(n)
+int idaStar::calcH(Point *point, Point *endPoint)
+{
+	//曼哈顿距离
+	return abs(point->x - endPoint->x) + abs(point->y - endPoint->y);
+	//欧几里得距离
+	//return sqrt((point->x - endPoint->x)*(point->x - endPoint->x) + (point->y - endPoint->y)*(point->y - endPoint->y));
+}
+
+//用于计算IDA*算法中的f(n)
+int idaStar::calcF(Point *point)
+{
+	return point->G + point->H;
+}
+
+Point* idaStar::findPath(Point &startPoint, Point &endPoint)
+{
+	//Point *start = new Point(startPoint);
+	startPoint.G = calcG(&startPoint);
+	startPoint.H = calcH(&startPoint, &endPoint);
+	startPoint.F = calcF(&startPoint);
+	int startStep = startPoint.F;
+
+	Point *result;
+	while ((result = idaSerach(&startPoint, endPoint, startStep)) == NULL)
+	{
+		bool noPath = true;
+		for (int i = 0; i < maze.rows; i++)
+		{
+			for (int j = 0; j < maze.cols; j++)
+			{
+				if (maze.Map[i][j]->n == 0)
+					noPath = false;
+			}
+		}
+		if (noPath)
+			return NULL;
+
+		startStep++;
+		step = -1;
+		for (int i = 0; i < maze.rows; i++)
+		{
+			for (int j = 0; j < maze.cols; j++)
+			{
+				if (maze.Map[i][j]->n < 0)
+					maze.Map[i][j]->n = 0;
+			}
+		}
+	}
+
+	return result;
+}
+
+Point* idaStar::idaSerach(Point *point, Point &endPoint, int maxF)
+{
+	//若该点的F值>预设的最大F值，则返回
+	if (point->F > maxF)
+		return NULL;	
+
+	//如果到达终点则返回终点的指针
+	if (point->x == endPoint.x && point->y == endPoint.y)
+		return point;
+
+	//将这个点进行标记，并用计数器step表示遍历的是第几个点
+	if (point->x != maze.startPoint.x || point->y != maze.startPoint.y)
+	{
+		if (point->n == 0)
+		{
+			point->n = step;
+			step--;
+		}
+	}
+
+	//得到当前点周围能到达的所有点
+	vector<Point*> surroundPoints = getSurroundPoints(point);
+	//遍历能够到达的所有点
+	for (auto &target : surroundPoints)
+	{
+		//将能够到达的点的parent指针指向当前点
+		if (target->parent == NULL)
+		{
+			target->parent = point;
+			target->G = calcG(target);
+			target->H = calcH(target, &endPoint);
+			target->F = calcF(target);
+		}
+		else
+		{
+			int tempG = point->G + 1;
+			if (tempG < target->G)
+			{
+				target->parent = point;
+				target->G = tempG;
+				target->F = calcF(target);
+			}
+		}
+
+		Point *result;
+		//递归
+		result = idaSerach(target, endPoint, maxF);
+		if (result != NULL)
+			return result;
+	}
+	return NULL;
+}
+
+list<Point*> idaStar::getPath(Point *result)
+{
+	keyStep = 11;
+	list<Point*> path;
+	while (result)
+	{
+		if ((result->x != maze.startPoint.x || result->y != maze.startPoint.y) && (result->x != maze.endPoint.x || result->y != maze.endPoint.y))
+		{
+			result->n = keyStep;
+			keyStep++;
+		}
+		path.push_front(result);
+		result = result->parent;
+	}
+	return path;
+}
+
+vector<Point*> idaStar::getSurroundPoints(const Point *point) const
+{
+	vector<Point*> surroundPoints;
+
+	int dx[4] = { 0,-1,0,1 };
+	int dy[4] = { 1,0,-1,0 };
+
+	for (int i = 0; i<4; i++)
+	{
+		int x = point->x + dx[i];
+		int y = point->y + dy[i];
+		if (isCanReach(point, maze.Map[x][y]))
+		{
+			surroundPoints.push_back(maze.Map[x][y]);
+		}
+
+	}
+
+	return surroundPoints;
+}
+
+bool idaStar::isCanReach(const Point *point, const Point *target) const
+{
+	if ((target->n == 0 || target->n == 3) && target->x >= 1 && target->x <= maze.rows && target->y >= 1 && target->y <= maze.cols)
+		return true;
+	return false;
+}
+

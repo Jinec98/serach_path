@@ -14,10 +14,6 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
-    <Filter Include="Form Files">
-      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
-      <Extensions>ui</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
       <Extensions>qrc;*</Extensions>
@@ -71,9 +67,6 @@
     <CustomBuild Include="SerachPath.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="SerachPath.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="SerachPath.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
@@ -82,9 +75,6 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_SerachPath.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="myFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -106,5 +96,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

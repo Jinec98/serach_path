@@ -1,15 +1,15 @@
 #include "myFile.h"
 
+myFile::myFile() {}
+myFile::~myFile() {}
+
 openFile::openFile() {}
 openFile::openFile(const string fileName)
 {
 	this->fileName = fileName;
 	maze = new Maze();
 }
-openFile::~openFile()
-{
-
-}
+openFile::~openFile() {}
 
 //用于打开文件，并将文件中的信息转换成Maze对象中的信息
 Maze& openFile::getMaze()
@@ -76,10 +76,7 @@ writeFile::writeFile(const string fileName, Maze *maze)
 	this->fileName = fileName;
 	this->maze = maze;
 }
-writeFile::~writeFile()
-{
-
-}
+writeFile::~writeFile() {}
 
 //用于写文件，将路径及步数写入文件中
 void writeFile::writeMaze(list<Point*> path, string step)

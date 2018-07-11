@@ -159,7 +159,9 @@ makeMazeWindow::makeMazeWindow(int cols, int rows, string name, QWidget *parent)
 }
 
 makeMazeWindow::~makeMazeWindow()
-{}
+{
+
+}
 
 void makeMazeWindow::paintEvent(QPaintEvent *event)
 {

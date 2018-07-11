@@ -8,7 +8,17 @@
 #include "Maze.h"
 #include "Point.h"
 
-class openFile
+class myFile
+{
+public :
+	myFile();
+	~myFile();
+
+	string fileName;
+	Maze *maze;
+};
+
+class openFile : public myFile
 {
 public:
 	openFile();
@@ -16,13 +26,9 @@ public:
 	~openFile();
 
 	Maze& getMaze();
-
-private:
-	string fileName;
-	Maze *maze;
 };
 
-class writeFile
+class writeFile : public myFile
 {
 public:
 	writeFile();
@@ -30,10 +36,6 @@ public:
 	~writeFile();
 
 	void writeMaze(list<Point*> path, string step);
-
-private:
-	string fileName;
-	Maze *maze;
 };
 
 #endif // MYFILE_H_INCLUDED

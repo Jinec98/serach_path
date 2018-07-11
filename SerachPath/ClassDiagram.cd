@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Maze">
+    <Position X="3.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAKAAAABAAAAAAAEBAAAAAAACAAAAAAAAAAAYAAAA=</HashCode>
+      <FileName>Maze.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="myAlgorithm">
+    <Position X="4.25" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ggAAAAAAAAAAAgAAAAQAAAIAgAAgAAAAAAAAAAiAAAA=</HashCode>
+      <FileName>myAlgorithm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="bfs">
+    <Position X="1" Y="12.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAQAAAIAgAAAAAAAAAgAAAgAAAA=</HashCode>
+      <FileName>myAlgorithm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="dfs">
+    <Position X="3.25" Y="12.25" Width="1.75" />
+    <InheritanceLine Type="myAlgorithm" FixedToPoint="true">
+      <Path>
+        <Point X="5.25" Y="10.547" />
+        <Point X="5.25" Y="11.875" />
+        <Point X="4.125" Y="11.875" />
+        <Point X="4.125" Y="12.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAACQAAAIAgAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>myAlgorithm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aStar">
+    <Position X="5.5" Y="12.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAiAAAAAAAAAAACBAASAAgIAgAAAgAAAAAAAAAgRAAA=</HashCode>
+      <FileName>myAlgorithm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="myFile">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAACA=</HashCode>
+      <FileName>myFile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="openFile">
+    <Position X="6.5" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAQAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>myFile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="writeFile">
+    <Position X="8.75" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAIAAAAAAAAAAAg=</HashCode>
+      <FileName>myFile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point">
+    <Position X="1" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgABAAAAAAQAAAAAAAAAAEABgGEAAAAA=</HashCode>
+      <FileName>Point.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SerachPath">
+    <Position X="12.75" Y="3.25" Width="2.25" />
+    <InheritanceLine Type="QMainWindow" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14" Y="2.927" />
+        <Point X="14" Y="3.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>GhwQATQWgSAFZABqIKIOmXoCAAHVIAAAkUFEGADglBI=</HashCode>
+      <FileName>SerachPath.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="setMazeWindow">
+    <Position X="18" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QEBAAAAAYBAAAAAAAAAAAAAACAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>childWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="makeMazeWindow">
+    <Position X="15.5" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AgAABBACAEhAAAAgBABAAABIgAGEAACAAAAEGEBgAAA=</HashCode>
+      <FileName>childWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="generateMazeWinodw">
+    <Position X="20.25" Y="3.75" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="generateMazeWinodw::generateMaze">
+        <Compartments>
+          <Compartment Name="Nested Types" Collapsed="false" />
+        </Compartments>
+        <NestedTypes>
+          <Struct Name="generateMazeWinodw::generateMaze::Gird">
+            <TypeIdentifier>
+              <NewMemberFileName>childWindow.h</NewMemberFileName>
+            </TypeIdentifier>
+          </Struct>
+          <Struct Name="generateMazeWinodw::generateMaze::Point">
+            <TypeIdentifier>
+              <NewMemberFileName>childWindow.h</NewMemberFileName>
+            </TypeIdentifier>
+          </Struct>
+        </NestedTypes>
+        <TypeIdentifier>
+          <NewMemberFileName>childWindow.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>SADAAAAAABAAAAAAAAgAAAKACAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>childWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QMainWindow" Collapsed="true">
+    <Position X="13.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoACQgKYCA0hRAgBkKBY4oAAABEAABmBggAgIAMgACA=</HashCode>
+      <FileName>c:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWidgets\qmainwindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QDialog" Collapsed="true">
+    <Position X="19.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACJBAiiQBAQAAAQBABAIAAAAAAEIAAAgAERgAIgAEA=</HashCode>
+      <FileName>c:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWidgets\qdialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QWidget" Collapsed="true">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hA6pAGgYqICSoYVAaL8yqpBimu1GwLWO4PBiCgXdwII=</HashCode>
+      <FileName>c:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWidgets\qwidget.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="idaStar">
+    <Position X="7.75" Y="12.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAEAQAAAIAgAAAhACAAAAAAAgQAAA=</HashCode>
+      <FileName>myAlgorithm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>
