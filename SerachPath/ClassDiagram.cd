@@ -1,34 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Maze">
-    <Position X="3.75" Y="1.5" Width="1.5" />
+    <Position X="6" Y="1.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAKAAAABAAAAAAAEBAAAAAAACAAAAAAAAAAAYAAAA=</HashCode>
       <FileName>Maze.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="myAlgorithm">
-    <Position X="4.25" Y="7.75" Width="2" />
+    <Position X="6.5" Y="9" Width="2" />
     <TypeIdentifier>
       <HashCode>ggAAAAAAAAAAAgAAAAQAAAIAgAAgAAAAAAAAAAiAAAA=</HashCode>
       <FileName>myAlgorithm.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="bfs">
-    <Position X="1" Y="12.25" Width="1.75" />
+    <Position X="3.25" Y="13.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABAAAAAQAAAIAgAAAAAAAAAgAAAgAAAA=</HashCode>
       <FileName>myAlgorithm.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dfs">
-    <Position X="3.25" Y="12.25" Width="1.75" />
+    <Position X="5.5" Y="13.5" Width="1.75" />
     <InheritanceLine Type="myAlgorithm" FixedToPoint="true">
       <Path>
-        <Point X="5.25" Y="10.547" />
-        <Point X="5.25" Y="11.875" />
-        <Point X="4.125" Y="11.875" />
-        <Point X="4.125" Y="12.25" />
+        <Point X="7.5" Y="11.797" />
+        <Point X="7.5" Y="13.125" />
+        <Point X="6.375" Y="13.125" />
+        <Point X="6.375" Y="13.5" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -37,35 +37,35 @@
     </TypeIdentifier>
   </Class>
   <Class Name="aStar">
-    <Position X="5.5" Y="12.25" Width="1.75" />
+    <Position X="7.75" Y="13.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAiAAAAAAAAAAACBAASAAgIAgAAAgAAAAAAAAAgRAAA=</HashCode>
       <FileName>myAlgorithm.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="myFile">
-    <Position X="7.75" Y="1.5" Width="1.5" />
+    <Position X="9.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAACA=</HashCode>
       <FileName>myFile.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="openFile">
-    <Position X="6.5" Y="4.75" Width="1.75" />
+    <Position X="8" Y="5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAQAAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>myFile.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="writeFile">
-    <Position X="8.75" Y="4.75" Width="1.75" />
+    <Position X="10.25" Y="5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAIAAAAAAAAAAAg=</HashCode>
       <FileName>myFile.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Point">
-    <Position X="1" Y="1.5" Width="1.5" />
+    <Position X="3.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAgABAAAAAAQAAAAAAAAAAEABgGEAAAAA=</HashCode>
       <FileName>Point.h</FileName>
@@ -152,7 +152,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="idaStar">
-    <Position X="7.75" Y="12.25" Width="1.75" />
+    <Position X="10" Y="13.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAACAEAQAAAIAgAAAhACAAAAAAAgQAAA=</HashCode>
       <FileName>myAlgorithm.h</FileName>
