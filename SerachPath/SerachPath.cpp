@@ -68,19 +68,25 @@ void SerachPath::initWindow()
 	infoText += "可在迷宫中搜索从起点到终点的路径，并显示搜索的步骤\n及最佳路径。\n";
 	infoText += "        在数据结构方面，运用了链表、栈、队列、树、STL（list、vector、stack、queue）等相关知识；\n";
 	infoText += "        在C++方面，体现继承、封装、多态的思想，运用了多文件部署、内部类、纯虚函数、拷贝构造函数、运算符\n重载、内联函数、文件输入输出流、指针与引用等相关知识；\n";
-	infoText += "        在QT方面，运用了窗口、布局、控件、信号槽、对话框、多线程等相关知识。\n\n";
-	infoText += "        由于迷宫的大小规模未知，窗口界面大小为算法计算得出，因此在迷宫规模为5*5-30*30下程序显示最佳。\n注意：迷宫最大规模不可超过50*50。";
-	infoText += "如若是第一次运行本程序，建议先点击“帮助”了解程序的相关操作。\n\n\n";
+	infoText += "        在QT方面，运用了窗口、布局、控件、信号槽、事件处理、对话框、线程等相关知识。\n\n";
+	infoText += "        由于迷宫的大小规模未知，窗口界面大小为算法计算得出，因此在迷宫规模为5*5-30*30下程序显示最佳。\n        注意：迷宫最大规模不可超过50*50。\n";
+	infoText += "        若是第一次运行本程序，建议先点击“帮助”了解程序的相关操作。点击“关于”可查看本程序类图与源码。\n\n\n";
 	infoText += "程序基本流程为：\n";
 	infoText += "        创建迷宫/生成迷宫->打开文件->设置显示速度->设置搜索算法->寻找路径->得到最短路径->保存文件\n";
 	infoText += "\t（程序根目录下 / test中含有迷宫测试样例，若直接打开可跳过“创建迷宫”或“生成迷宫”）\n\n";
 	infoText += "如遇BUG敬请谅解，并可与我联系╮(﹀_﹀)╭\n\n";
-	infoText += "作者：@Jinec\t\t\tQQ：389468296";
+	infoText += "作者：@Jinec\t\tQQ：389468296\t\t查看源码： ";
 	QString infoStr = s2q(infoText);
 	initLabel->setText(infoStr);
 	QFont font("Microsoft YaHei", 12, 75);
 	initLabel->setFont(font);
-	layout->addWidget(initLabel, 0,0);
+	layout->addWidget(initLabel, 0, 0);
+
+	initLinkLabel = new QLabel();
+	initLinkLabel->setOpenExternalLinks(true);
+	initLinkLabel->setText("< a href = \"https://github.com/Ylebron/serach_path\">https://github.com/Ylebron/serach_path");
+	initLinkLabel->setGeometry(520, 572, 300, 20);
+	initLinkLabel->setParent(this);
 }
 
 //用于自动设置窗口大小的函数
@@ -164,6 +170,7 @@ void SerachPath::createToolBar()
 	getPathAction = new QAction(QIcon(":/SerachPath/Resources/getPath.png"), s2q("得到路径"), this);
 	saveFileAction = new QAction(QIcon(":/SerachPath/Resources/saveFile.png"), s2q("保存文件"), this);
 	helpAction = new QAction(QIcon(":/SerachPath/Resources/help.png"), s2q("帮助"), this);
+	aboutAction = new QAction(QIcon(":/SerachPath/Resources/about.png"), s2q("关于"), this);
 	setSpeedAction = new QAction(QIcon(":/SerachPath/Resources/setSpeed.png"), s2q("显示速度"), this);
 
 	//连接工具栏的按钮和信号槽
@@ -174,6 +181,7 @@ void SerachPath::createToolBar()
 	connect(getPathAction, &QAction::triggered, this, &SerachPath::getPathActionSlot);
 	connect(saveFileAction, &QAction::triggered, this, &SerachPath::saveFileActionSlot);
 	connect(helpAction, &QAction::triggered, this, &SerachPath::helpActionSlot);
+	connect(aboutAction, &QAction::triggered, this, &SerachPath::aboutActtionSlot);
 
 	//初始化工具栏的按钮
 	makeMazeTool = addToolBar("Create Maze");
@@ -196,6 +204,9 @@ void SerachPath::createToolBar()
 
 	helpTool = addToolBar("Help");
 	helpTool->addAction(helpAction);
+
+	aboutTool = addToolBar("About");
+	aboutTool->addAction(aboutAction);
 
 	//初始化滑块
 	setSpeedTool = addToolBar("Set Speed");
@@ -258,6 +269,7 @@ void SerachPath::openFileActionSlot()
 	maze = new Maze(fileOpen->getMaze());
 
 	//将打开文件得到的迷宫显示出来
+	delete initLinkLabel;
 	deleteMap();
 	setMap();
 	setWindow();
@@ -509,13 +521,20 @@ void SerachPath::helpActionSlot()
 	infoText += "探寻的方向为右→、上↑、左←、下↓，若无可行路径则会弹出消息提示。\n\n";
 	infoText += "7、点击“得到路径”\t需先寻找路径\n";
 	infoText += "\t可显示通过之前的寻找而得到的最佳路径。\n\n";
-	infoText += "8、点击“保存文件”\t需先得到路径\n\n";
+	infoText += "8、点击“保存文件”\t需先得到路径\n";
 	infoText += "\t可将程序的运行结果保存至文本文件中，该文件保存在之前打开的文件的目录下，命名为“算法名称_打开的文件名称”。";
 	infoText += "该文件的内容的格式为：前m行：每行n个字符表示迷宫，其中“*”表示从起点到终点的最佳路径。下一行：显示该路径的步数step。余下step行：显示从起点到终点的路径的坐标。\n\n";
-
+	infoText += "9、点击“关于”\t查看本程序类图与源码\n";
+	infoText += "\t可通过鼠标拖拽、鼠标滚轮滑动，调整类图。\n";
 	QString infoStr = s2q(infoText);
 	QMessageBox::question(this, s2q("帮助"), infoStr, QMessageBox::Ok);
 
+}
+
+void SerachPath::aboutActtionSlot()
+{
+	showAboutWindow *aboutWindow = new showAboutWindow();
+	aboutWindow->show();
 }
 
 //用于初始化迷宫的laebl，并将其添加至窗口上

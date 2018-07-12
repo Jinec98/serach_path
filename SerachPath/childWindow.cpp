@@ -574,3 +574,179 @@ void generateMazeWinodw::generateMaze::outputMaze(string directoryPath, string n
 	}
 	writeFile.close();
 }
+
+showAboutWindow::showAboutWindow()
+{
+	QIcon icon;
+	icon.addFile(QStringLiteral(":/SerachPath/Resources/icon.ico"), QSize(), QIcon::Normal, QIcon::Off);
+	setWindowIcon(icon);
+	setWindowTitle(s2q("SerachPath@Jinec"));
+	setWindowOpacity(0.9);
+
+	pixRatio = 1.0;             //初始化图片缩放比例
+	actionMode = showAboutWindow::None;
+	classDiagramPix = new QPixmap;
+	classDiagramPix->load(":/SerachPath/Resources/ClassDiagram.png");
+	pixWidth = classDiagramPix->width();
+	pixHeight = classDiagramPix->height();
+
+	linkLabel = new QLabel();
+	linkLabel->setOpenExternalLinks(true);
+	linkLabel->setText(s2q("查看源码： <a href=\"https://github.com/Ylebron/serach_path\">https://github.com/Ylebron/serach_path"));
+	linkLabel->setGeometry(10, 830, 300, 20);
+	linkLabel->setParent(this);
+	ratioLabel = new QLabel(s2q("缩放倍率：100%"), this);
+	ratioLabel->setGeometry(700,830,100,20);
+
+	setFixedSize(830, 860);
+
+	paintArea = QRect(10, 10, 810, 810);
+	allOffset = QPoint(0, 0);
+	isPress = false;
+}
+
+showAboutWindow::~showAboutWindow()
+{
+
+}
+
+void showAboutWindow::mousePressEvent(QMouseEvent *event)
+{
+	if (event->button() == Qt::LeftButton && paintArea.contains(event->pos()))
+	{
+		isPress = true;
+		QApplication::setOverrideCursor(Qt::OpenHandCursor); //设置鼠标样式
+		prePoint = event->pos();
+	}
+}
+
+void showAboutWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+	if (event->button() == Qt::LeftButton && isPress)
+	{
+		QApplication::setOverrideCursor(Qt::ArrowCursor); //改回鼠标样式
+		isPress = false;
+	}
+}
+
+void showAboutWindow::mouseMoveEvent(QMouseEvent *event)
+{
+	if (isPress)
+	{
+		pixOffset.setX(event->x() - prePoint.x());
+		pixOffset.setY(event->y() - prePoint.y());
+		prePoint = event->pos();
+		actionMode = showAboutWindow::Move;
+		this->update();
+	}
+}
+
+void showAboutWindow::wheelEvent(QWheelEvent *event)     //鼠标滑轮事件
+{
+	if (event->delta() > 0)
+	{
+		actionMode = showAboutWindow::Amplification;
+		this->update();
+	}
+	else
+	{
+		actionMode = showAboutWindow::Shrink;
+		this->update();
+	}
+	event->accept();
+}
+
+void showAboutWindow::paintEvent(QPaintEvent *event)
+{
+	QPainter painter(this);
+	int nowWidth = pixRatio * pixWidth;
+	int nowHeight = pixRatio * pixHeight;
+
+	if (actionMode == showAboutWindow::Amplification)
+	{
+		pixRatio += 0.1*pixRatio;
+		if (pixRatio > 4.5)
+			pixRatio = 5.000;
+
+		QString str;
+		QString labelStr;
+		string initStr = "缩放倍率：";
+		labelStr.append(s2q(initStr));
+		str.sprintf("%.0f%", pixRatio * 100);
+		labelStr.append(str);
+		ratioLabel->setText(labelStr);
+	}
+	else if (actionMode == showAboutWindow::Shrink)
+	{
+		pixRatio -= 0.1*pixRatio;
+		if (pixRatio < 0.018)
+			pixRatio = 0.01;
+
+		QString str;
+		QString labelStr;
+		string initStr = "缩放倍率：";
+		labelStr.append(s2q(initStr));
+		str.sprintf("%.0f%", pixRatio * 100);
+		labelStr.append(str);
+		ratioLabel->setText(labelStr);
+	}
+
+	if (actionMode == showAboutWindow::Amplification || actionMode == showAboutWindow::Shrink)
+	{
+		nowWidth = pixRatio * pixWidth;
+		nowHeight = pixRatio * pixHeight;
+		classDiagramPix->load(":/SerachPath/Resources/ClassDiagram.png");
+		*classDiagramPix = classDiagramPix->scaled(nowWidth, nowHeight, Qt::KeepAspectRatio);
+		actionMode = showAboutWindow::None;
+	}
+
+	if (actionMode == showAboutWindow::Move)
+	{
+		int offsetX = allOffset.x() + pixOffset.x();
+		allOffset.setX(offsetX);
+		int offsetY = allOffset.y() + pixOffset.y();
+		allOffset.setY(offsetY);
+		actionMode = showAboutWindow::None;
+	}
+
+	if (abs(allOffset.x()) >= (paintArea.width() / 2 + nowWidth / 2 - 10))
+	{
+		if (allOffset.x() > 0)
+			allOffset.setX(paintArea.width() / 2 + nowWidth / 2 - 10);
+		else
+			allOffset.setX(-paintArea.width() / 2 - nowWidth / 2 + 10);
+	}
+	if (abs(allOffset.y()) >= paintArea.height() / 2 + nowHeight / 2 - 10)
+	{
+		if (allOffset.y() > 0)
+			allOffset.setY(paintArea.height() / 2 + nowHeight / 2 - 10);
+		else
+			allOffset.setY(-paintArea.height() / 2 + nowHeight / 2 + 10);
+	}
+
+	int drawPosX = paintArea.width() / 2 + allOffset.x() - nowWidth / 2;
+	if (drawPosX < 0)
+		drawPosX = 0;
+	int drawPosY = paintArea.height() / 2 + allOffset.y() - nowHeight / 2;
+	if (drawPosY < 0)
+		drawPosY = 0;
+
+	int startPosX = nowWidth / 2 - paintArea.width() / 2 - allOffset.x();
+	if (startPosX < 0)
+		startPosX = 0;
+	int startPosY = nowHeight / 2 - paintArea.height() / 2 - allOffset.y();
+	if (startPosY < 0)
+		startPosY = 0;
+
+	int pixWidth = (nowWidth - startPosX) > paintArea.width() ? paintArea.width() : (nowWidth - startPosX);
+	if (pixWidth > paintArea.width() - drawPosX)
+		pixWidth = paintArea.width() - drawPosX;
+	int pixHeight = (nowHeight - startPosY) > paintArea.height() ? paintArea.height() : (nowHeight - startPosY);
+	if (pixHeight > paintArea.height() - drawPosY)
+		pixHeight = paintArea.height() - drawPosY;
+
+	painter.drawRect(paintArea.x() - 1, paintArea.y() - 1, paintArea.width() + 1, paintArea.height() + 1);
+	painter.drawTiledPixmap(drawPosX + paintArea.x(), drawPosY + paintArea.y(), pixWidth, pixHeight, *classDiagramPix, startPosX, startPosY);
+
+
+}

@@ -44,6 +44,7 @@ private slots:
 	void getPathActionSlot();
 	void saveFileActionSlot();
 	void helpActionSlot();
+	void aboutActtionSlot();
 	
 private:
 	void createToolBar();
@@ -70,6 +71,7 @@ private:
 
 	QIcon icon;
 	QLabel * initLabel;
+	QLabel * initLinkLabel;
 
 	QToolBar * makeMazeTool;
 	QToolBar * generateMazeTool;
@@ -78,6 +80,7 @@ private:
 	QToolBar * getPathTool;
 	QToolBar * saveFileTool;
 	QToolBar * helpTool;
+	QToolBar * aboutTool;
 	QToolBar * setModeTool;
 	QToolBar * setSpeedTool;
 
@@ -88,6 +91,7 @@ private:
 	QAction * getPathAction;
 	QAction * saveFileAction;
 	QAction * helpAction;
+	QAction * aboutAction;
 	QAction * setSpeedAction;
 
 	QComboBox * setMode;

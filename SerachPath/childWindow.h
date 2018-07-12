@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QDialog>
-#include <QtWidgets/QMainWindow>
+#include <QtWidgets>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -17,8 +17,10 @@
 #include <QPen>
 #include <QFont>
 #include <QMessageBox>
-#include <QMouseEvent>
+#include <QtGui>
+#include <QDesktopServices>
 #include <QFileDialog>
+#include <QApplication>
 #include <string>
 #include <algorithm>
 #include <fstream>
@@ -140,4 +142,42 @@ private:
 		vector<int> dirList;
 	};
 	generateMaze * GenerateMaze;
+};
+
+class showAboutWindow : public QWidget
+{
+	Q_OBJECT
+
+public:
+	explicit showAboutWindow();
+	~showAboutWindow();
+
+	enum  Type
+	{
+		None = 0,
+		Amplification,
+		Shrink,
+		Move
+	};
+
+private:
+	QPixmap * classDiagramPix;
+	int actionMode;          //动作(放大,缩小,移动...)
+	QRect paintArea;         //绘画区域
+	float pixRatio;                //比例
+	int pixWidth;
+	int pixHeight;
+	QPoint pixOffset;              //一次的图片偏移值
+	QPoint allOffset;           //总偏移
+	bool isPress;
+	QPoint prePoint;
+	QLabel *linkLabel;
+	QLabel *ratioLabel;
+
+	void mousePressEvent(QMouseEvent *event);
+	void mouseReleaseEvent(QMouseEvent *event);
+	void mouseMoveEvent(QMouseEvent *event);
+	void wheelEvent(QWheelEvent *event);     //鼠标滑轮事件
+	void paintEvent(QPaintEvent *event);
+
 };
