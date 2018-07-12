@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <vector>
 
+//迷宫中的点类
 class Point
 {
 public:
@@ -13,8 +14,8 @@ public:
 	Point(const Point &p);
 	bool operator== (const Point &p);
 
-	int x, y, n;
-	int F, G, H;
+	int x, y, n;//坐标及该点状态
+	int F, G, H;//用于启发式算法
 	Point *parent;
 };
 

@@ -1,11 +1,14 @@
 #include "Maze.h"
 
+//构造函数
 Maze::Maze() {}
 Maze::Maze(int rows, int cols)
 {
 	this->rows = rows;
 	this->cols = cols;
 }
+
+//拷贝构造函数
 Maze::Maze(const Maze &m)
 {
 	rows = m.rows;

@@ -8,6 +8,7 @@
 
 using namespace std;
 
+//√‘π¨¿‡
 class Maze
 {
 public:

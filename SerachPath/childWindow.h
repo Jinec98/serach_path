@@ -30,6 +30,7 @@
 
 using namespace std;
 
+//设置迷宫大小对话框
 class setMazeWindow : public QDialog
 {
 	Q_OBJECT
@@ -42,7 +43,7 @@ private slots:
 	void commitBtnSlot();
 
 private:
-	QLabel * colsLabel;
+	QLabel *colsLabel;
 	QLabel *rowsLabel;
 	QLabel *nameLabel;
 
@@ -53,6 +54,7 @@ private:
 	QPushButton *commitBtn;
 };
 
+//用户自主创建迷宫界面
 class makeMazeWindow : public QWidget
 {
 	Q_OBJECT
@@ -97,6 +99,7 @@ private slots:
 	void commitBtnSlot();
 };
 
+//设置自动生成迷宫的规模对话框，并自动生成迷宫
 class generateMazeWinodw : public QDialog
 {
 	Q_OBJECT
@@ -118,6 +121,7 @@ private:
 	QLineEdit * nameText;
 	QPushButton * commitBtn;
 
+	//用于自动生成迷宫的类
 	class generateMaze
 	{
 	public:
@@ -147,6 +151,7 @@ private:
 	generateMaze * GenerateMaze;
 };
 
+//显示“关于”界面
 class showAboutWindow : public QWidget
 {
 	Q_OBJECT
@@ -182,5 +187,4 @@ private:
 	void mouseMoveEvent(QMouseEvent *event);
 	void wheelEvent(QWheelEvent *event);     //鼠标滑轮事件
 	void paintEvent(QPaintEvent *event);
-
 };

@@ -1,5 +1,6 @@
 #include "Point.h"
 
+//构造函数
 Point::Point() {}
 Point::Point(int x, int y, int n)
 {
@@ -11,6 +12,8 @@ Point::Point(int x, int y, int n)
 	H = 0;
 	parent = NULL;
 }
+
+//拷贝构造函数
 Point::Point(const Point &p)
 {
 	x = p.x;
@@ -22,6 +25,7 @@ Point::Point(const Point &p)
 	parent = p.parent;
 }
 
+//运算符重载，判断两点是否为同一点
 bool Point::operator==(const Point & p)
 {
 	return x == p.x && y == p.y && n == p.n && F == p.F && G == p.G && H == p.H && parent == p.parent;

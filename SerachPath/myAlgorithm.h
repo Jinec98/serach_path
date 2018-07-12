@@ -13,6 +13,7 @@
 
 using namespace std;
 
+//算法基类
 class myAlgorithm 
 {
 public:
@@ -30,6 +31,7 @@ public:
 	Maze maze;
 };
 
+//广度优先搜索类，继承于算法类
 class bfs : public myAlgorithm
 {
 public:
@@ -43,6 +45,7 @@ public:
 	bool isCanReach(const Point *point, const Point *target) const;
 };
 
+//深度优先搜索类，继承于算法类
 class dfs : public myAlgorithm
 {
 public:
@@ -57,6 +60,7 @@ public:
 
 };
 
+//启发式搜索类，继承于算法类
 class aStar : public myAlgorithm
 {
 public:
@@ -79,6 +83,7 @@ public:
 	list<Point*> closeList;
 };
 
+//迭代加深启发式搜索类，继承于算法类
 class idaStar : public myAlgorithm
 {
 public:

@@ -29,6 +29,7 @@
 inline QString s2q(const std::string &s);
 inline std::string q2s(const QString &s);
 
+//主界面类
 class SerachPath : public QMainWindow
 {
 	Q_OBJECT
@@ -36,6 +37,7 @@ class SerachPath : public QMainWindow
 public:
 	SerachPath(QWidget *parent = Q_NULLPTR);
 	~SerachPath();
+
 private slots:
 	void makeMazeActionSlot();
 	void generateMazeActionSlot();

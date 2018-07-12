@@ -2,6 +2,7 @@
 
 myAlgorithm::myAlgorithm() {}
 
+//基类构造函数
 myAlgorithm::myAlgorithm(Maze &maze)
 {
 	step = -1;
@@ -11,10 +12,6 @@ myAlgorithm::myAlgorithm(Maze &maze)
 
 myAlgorithm::~myAlgorithm() {}
 
-//Point* myAlgorithm::findPath(Point &startPoint, Point &endPoint) {}
-//list<Point*> myAlgorithm::getPath(Point *result) {}
-//vector<Point*> myAlgorithm::getSurroundPoints(const Point *point) const {}
-//bool myAlgorithm::isCanReach(const Point *point, const Point *target) const {}
 
 //bfs类的构造函数，传入Maze类型的引用
 bfs::bfs() {}
@@ -212,8 +209,6 @@ bool dfs::isCanReach(const Point *point, const Point *target) const
 	return false;
 }
 
-
-
 //aStar类的构造函数
 aStar::aStar() {}
 aStar::aStar(Maze &maze) : myAlgorithm(maze) {}
@@ -376,6 +371,7 @@ vector<Point*> aStar::getSurroundPoints(const Point *point) const
 	return surroundPoints;
 }
 
+//IDA*类构造函数
 idaStar::idaStar() {}
 idaStar::idaStar(Maze &maze) : myAlgorithm(maze) {}
 idaStar::~idaStar() {}
@@ -403,9 +399,10 @@ int idaStar::calcF(Point *point)
 	return point->G + point->H;
 }
 
+//迭代加深启发式搜索用于寻找路径的函数，传入的是起点和终点的引用
 Point* idaStar::findPath(Point &startPoint, Point &endPoint)
 {
-	//Point *start = new Point(startPoint);
+	//计算起点到终点的f值，设为初始估价量
 	startPoint.G = calcG(&startPoint);
 	startPoint.H = calcH(&startPoint, &endPoint);
 	startPoint.F = calcF(&startPoint);
@@ -414,6 +411,7 @@ Point* idaStar::findPath(Point &startPoint, Point &endPoint)
 	Point *result;
 	while ((result = idaSerach(&startPoint, endPoint, startStep)) == NULL)
 	{
+		//判断是否迷宫已全部遍历
 		bool noPath = true;
 		for (int i = 0; i < maze.rows; i++)
 		{
@@ -426,7 +424,9 @@ Point* idaStar::findPath(Point &startPoint, Point &endPoint)
 		if (noPath)
 			return NULL;
 
+		//在此估价量下找不到终点，则将估价量++
 		startStep++;
+		//初始化迷宫
 		step = -1;
 		for (int i = 0; i < maze.rows; i++)
 		{
@@ -441,6 +441,7 @@ Point* idaStar::findPath(Point &startPoint, Point &endPoint)
 	return result;
 }
 
+//IDA*算法核心函数
 Point* idaStar::idaSerach(Point *point, Point &endPoint, int maxF)
 {
 	//若该点的F值>预设的最大F值，则返回
@@ -494,6 +495,7 @@ Point* idaStar::idaSerach(Point *point, Point &endPoint, int maxF)
 	return NULL;
 }
 
+//用于得到路径
 list<Point*> idaStar::getPath(Point *result)
 {
 	keyStep = 11;
@@ -511,6 +513,7 @@ list<Point*> idaStar::getPath(Point *result)
 	return path;
 }
 
+//用于得到当前点周围能到达的所有点
 vector<Point*> idaStar::getSurroundPoints(const Point *point) const
 {
 	vector<Point*> surroundPoints;
@@ -532,6 +535,7 @@ vector<Point*> idaStar::getSurroundPoints(const Point *point) const
 	return surroundPoints;
 }
 
+//判断该点是否能够到达
 bool idaStar::isCanReach(const Point *point, const Point *target) const
 {
 	if ((target->n == 0 || target->n == 3) && target->x >= 1 && target->x <= maze.rows && target->y >= 1 && target->y <= maze.cols)

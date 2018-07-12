@@ -231,14 +231,18 @@ void SerachPath::createToolBar()
 	setModeTool->addWidget(setMode);
 }
 
+//用户自主创建迷宫信号槽
 void SerachPath::makeMazeActionSlot()
 {
+	//创建新窗口
 	setMazeWindow *setMaze = new setMazeWindow(this);
 	setMaze->show();
 }
 
+//自动生成迷宫信号槽
 void SerachPath::generateMazeActionSlot()
 {
+	//创建新窗口
 	generateMazeWinodw *generateMaze = new generateMazeWinodw(this);
 	generateMaze->show();
 }
@@ -535,6 +539,7 @@ void SerachPath::helpActionSlot()
 
 }
 
+//关于界面信号槽
 void SerachPath::aboutActtionSlot()
 {
 	showAboutWindow *aboutWindow = new showAboutWindow();

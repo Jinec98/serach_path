@@ -8,6 +8,7 @@
 #include "Maze.h"
 #include "Point.h"
 
+//文件处理基类
 class myFile
 {
 public :
@@ -18,6 +19,7 @@ public :
 	Maze *maze;
 };
 
+//读文件类，继承于文件处理类
 class openFile : public myFile
 {
 public:
@@ -28,6 +30,7 @@ public:
 	Maze& getMaze();
 };
 
+//写文件类，继承于文件处理类
 class writeFile : public myFile
 {
 public:

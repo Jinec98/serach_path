@@ -12,6 +12,7 @@ inline std::string q2s(const QString &s)
 	return std::string((const char *)s.toLocal8Bit());
 }
 
+//构造函数
 setMazeWindow::setMazeWindow(QWidget *parent) : QDialog(parent)
 {
 	QIcon icon;
@@ -53,6 +54,7 @@ setMazeWindow::~setMazeWindow()
 
 }
 
+//按钮信号槽
 void setMazeWindow::commitBtnSlot()
 {
 	QString rowsStr = rowsText->text();
@@ -86,6 +88,7 @@ makeMazeWindow::makeMazeWindow(QWidget *parent) :QWidget(parent)
 
 }
 
+//构造函数
 makeMazeWindow::makeMazeWindow(int cols, int rows, string name, QWidget *parent) : QWidget(parent)
 {
 	blank = QPixmap(":/SerachPath/Resources/blank_maker.png");
@@ -176,6 +179,7 @@ makeMazeWindow::~makeMazeWindow()
 
 }
 
+//窗口绘制事件
 void makeMazeWindow::paintEvent(QPaintEvent *event)
 {
 	QPainter painter(this);
@@ -197,6 +201,7 @@ void makeMazeWindow::paintEvent(QPaintEvent *event)
 		painter.drawLine(this->width() - widgetWidth - 10, 10 + i * iconSize.height(), this->width() - widgetWidth - 10 + iconSize.width()*cols, 10 + i * iconSize.height());
 }
 
+//鼠标移动事件，可改变鼠标图标，在鼠标按压时可连续绘制墙壁或道路
 void makeMazeWindow::mouseMoveEvent(QMouseEvent *event)
 {
 	int posx = event->pos().x();
@@ -250,6 +255,7 @@ void makeMazeWindow::mouseMoveEvent(QMouseEvent *event)
 	}
 }
 
+//鼠标点击事件，可绘制单个图片
 void makeMazeWindow::mousePressEvent(QMouseEvent *event)
 {
 	int posx = event->pos().x();
@@ -318,6 +324,7 @@ void makeMazeWindow::mousePressEvent(QMouseEvent *event)
 	}
 }
 
+//鼠标释放事件
 void makeMazeWindow::mouseReleaseEvent(QMouseEvent *event)
 {
 	int posx = event->pos().x();
@@ -329,6 +336,7 @@ void makeMazeWindow::mouseReleaseEvent(QMouseEvent *event)
 	}
 }
 
+//保存按钮信号槽
 void makeMazeWindow::commitBtnSlot()
 {
 	if (startFlag && endFlag)
@@ -365,6 +373,7 @@ void makeMazeWindow::commitBtnSlot()
 		QMessageBox::critical(this, s2q("错误"), s2q("请设置起点和终点！"), QMessageBox::Ok);
 }
 
+//构造函数
 generateMazeWinodw::generateMazeWinodw(QWidget *parent) : QDialog(parent)
 {
 	setWindowTitle(s2q("SerachPath@Jinec"));
@@ -412,6 +421,7 @@ generateMazeWinodw::~generateMazeWinodw()
 
 }
 
+//确认按钮信号槽
 void generateMazeWinodw::commitBtnSlot()
 {
 	int mazeSizeMode;
@@ -501,6 +511,7 @@ void generateMazeWinodw::commitBtnSlot()
 	close();
 }
 
+//用户自动生成迷宫的类的构造函数
 generateMazeWinodw::generateMaze::generateMaze(int rows, int cols)
 {
 	this->rows = rows;
@@ -513,6 +524,7 @@ generateMazeWinodw::generateMaze::generateMaze(int rows, int cols)
 	for (int i = 0; i < rows; i++)
 		mazeStr[i] = new string[cols];
 
+	//初始化迷宫，一格为墙，一格为路，相互间隔，从起点开始挖墙，运用dfs挖至终点，形成迷宫
 	for (int i = 0; i < rows; i++)
 	{
 		for (int j = 0; j < cols; j++)
@@ -536,6 +548,7 @@ generateMazeWinodw::generateMaze::~generateMaze()
 
 }
 
+//得到下一个可行的随机方向
 int generateMazeWinodw::generateMaze::dirRand()
 {
 	int resultDir = 0;
@@ -559,6 +572,7 @@ int generateMazeWinodw::generateMaze::dirRand()
 	return resultDir;
 }
 
+//自动生成迷宫
 void generateMazeWinodw::generateMaze::genMaze()
 {
 	while (!mazeStack.empty())
@@ -606,6 +620,7 @@ void generateMazeWinodw::generateMaze::genMaze()
 	}
 }
 
+//将生成的迷宫写入文件
 void generateMazeWinodw::generateMaze::outputMaze(string directoryPath, string name)
 {
 	for (int i = 1; i < rows - 1; i++)
@@ -632,6 +647,7 @@ void generateMazeWinodw::generateMaze::outputMaze(string directoryPath, string n
 	writeFile.close();
 }
 
+//“关于”界面构造函数
 showAboutWindow::showAboutWindow()
 {
 	QIcon icon;
@@ -667,6 +683,7 @@ showAboutWindow::~showAboutWindow()
 
 }
 
+//鼠标点击事件
 void showAboutWindow::mousePressEvent(QMouseEvent *event)
 {
 	if (event->button() == Qt::LeftButton && paintArea.contains(event->pos()))
@@ -677,6 +694,7 @@ void showAboutWindow::mousePressEvent(QMouseEvent *event)
 	}
 }
 
+//鼠标释放事件
 void showAboutWindow::mouseReleaseEvent(QMouseEvent *event)
 {
 	if (event->button() == Qt::LeftButton && isPress)
@@ -686,6 +704,7 @@ void showAboutWindow::mouseReleaseEvent(QMouseEvent *event)
 	}
 }
 
+//鼠标移动事件
 void showAboutWindow::mouseMoveEvent(QMouseEvent *event)
 {
 	if (isPress)
@@ -698,7 +717,8 @@ void showAboutWindow::mouseMoveEvent(QMouseEvent *event)
 	}
 }
 
-void showAboutWindow::wheelEvent(QWheelEvent *event)     //鼠标滑轮事件
+//鼠标滑轮事件
+void showAboutWindow::wheelEvent(QWheelEvent *event) 
 {
 	if (event->delta() > 0)
 	{
@@ -713,6 +733,7 @@ void showAboutWindow::wheelEvent(QWheelEvent *event)     //鼠标滑轮事件
 	event->accept();
 }
 
+//绘制界面事件
 void showAboutWindow::paintEvent(QPaintEvent *event)
 {
 	QPainter painter(this);
@@ -804,6 +825,4 @@ void showAboutWindow::paintEvent(QPaintEvent *event)
 
 	painter.drawRect(paintArea.x() - 1, paintArea.y() - 1, paintArea.width() + 1, paintArea.height() + 1);
 	painter.drawTiledPixmap(drawPosX + paintArea.x(), drawPosY + paintArea.y(), pixWidth, pixHeight, *classDiagramPix, startPosX, startPosY);
-
-
 }
