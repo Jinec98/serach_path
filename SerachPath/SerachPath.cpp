@@ -163,8 +163,8 @@ void SerachPath::setWindow()
 void SerachPath::createToolBar()
 {
 	//初始化工具栏的信号槽
-	makeMazeAction = new QAction(QIcon(":/SerachPath/Resources/add.png"), s2q("创建迷宫"), this);
-	generateMazeAction = new QAction(QIcon(":/SerachPath/Resources/generate.png"), s2q("生成迷宫"), this);
+	makeMazeAction = new QAction(QIcon(":/SerachPath/Resources/add.png"), s2q("自主创建迷宫"), this);
+	generateMazeAction = new QAction(QIcon(":/SerachPath/Resources/generate.png"), s2q("自动生成迷宫"), this);
 	openFileAction = new QAction(QIcon(":/SerachPath/Resources/openFile.png"), s2q("打开文件"), this);
 	findPathAction = new QAction(QIcon(":/SerachPath/Resources/findPath.png"), s2q("寻找路径"), this);
 	getPathAction = new QAction(QIcon(":/SerachPath/Resources/getPath.png"), s2q("得到路径"), this);

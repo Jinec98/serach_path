@@ -76,6 +76,7 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_childWindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SerachPath.cpp" />
     <ClCompile Include="GeneratedFiles\qrc_SerachPath.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </PrecompiledHeader>

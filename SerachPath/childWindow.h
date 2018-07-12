@@ -75,6 +75,7 @@ public:
 	QButtonGroup *modeGroup;
 	QRadioButton *modeBtn[4];
 	QLabel *modeLabel[4];
+	QLabel ***mazePicLabel;
 
 	int widgetHeight;
 	int widgetWidth;
@@ -84,10 +85,12 @@ public:
 	string **maze;
 	bool startFlag = false;
 	bool endFlag = false;
+	bool isPress = false;
 
 protected:
 	void paintEvent(QPaintEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
+	void mousePressEvent(QMouseEvent *event);
 	void mouseReleaseEvent(QMouseEvent *event);
 
 private slots:

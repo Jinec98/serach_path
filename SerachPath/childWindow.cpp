@@ -88,16 +88,6 @@ makeMazeWindow::makeMazeWindow(QWidget *parent) :QWidget(parent)
 
 makeMazeWindow::makeMazeWindow(int cols, int rows, string name, QWidget *parent) : QWidget(parent)
 {
-	this->cols = cols;
-	this->rows = rows;
-	this->name = name;
-	maze = new string *[rows];
-	for (int i = 0; i < rows; i++)
-		maze[i] = new string[cols];
-	for (int i = 0; i < rows; i++)
-		for (int j = 0; j < cols; j++)
-			maze[i][j] = " ";
-
 	blank = QPixmap(":/SerachPath/Resources/blank_maker.png");
 	start = QPixmap(":/SerachPath/Resources/start_maker.png");
 	end = QPixmap(":/SerachPath/Resources/end_maker.png");
@@ -130,7 +120,8 @@ makeMazeWindow::makeMazeWindow(int cols, int rows, string name, QWidget *parent)
 		modeLabel[i] = new QLabel();
 		modeGroup->addButton(modeBtn[i], i);
 	}
-	QLabel *setModeStr1 = new QLabel(s2q("选择目标后，\n点击右侧网格即可。"));
+	modeBtn[0]->setChecked(true);
+	QLabel *setModeStr1 = new QLabel(s2q("选择目标后，\n点击右侧网格即可。\n拖拽鼠标可连续生成。"));
 	QLabel *setModeStr2 = new QLabel(s2q("选择目标："));
 	QFont font1("Microsoft YaHei", 12, 75);
 	QFont font2("Microsoft YaHei", 18, 75);
@@ -151,11 +142,33 @@ makeMazeWindow::makeMazeWindow(int cols, int rows, string name, QWidget *parent)
 	leftLayout->addWidget(modeBtn[3]);
 	leftLayout->addWidget(modeLabel[3]);
 	QPushButton *commitBtn = new QPushButton(s2q("保存"));
-	commitBtn->setFixedSize(100,50);
+	commitBtn->setFixedSize(100, 50);
 	leftLayout->addWidget(commitBtn);
 	connect(commitBtn, &QPushButton::clicked, this, &makeMazeWindow::commitBtnSlot);
 	leftWidget->setLayout(leftLayout);
 
+	this->cols = cols;
+	this->rows = rows;
+	this->name = name;
+	maze = new string *[rows];
+	for (int i = 0; i < rows; i++)
+		maze[i] = new string[cols];
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			maze[i][j] = " ";
+
+	mazePicLabel = new QLabel **[rows];
+	for (int i = 0; i < rows; i++)
+		mazePicLabel[i] = new QLabel *[cols];
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			mazePicLabel[i][j] = new QLabel();
+			mazePicLabel[i][j]->setScaledContents(true);
+			mazePicLabel[i][j]->setParent(rightWidget);
+		}
+	}
 }
 
 makeMazeWindow::~makeMazeWindow()
@@ -174,7 +187,7 @@ void makeMazeWindow::paintEvent(QPaintEvent *event)
 	QPen pen;
 	pen.setWidth(5);
 	painter.setPen(pen);
-	painter.drawLine(this->width() - widgetWidth - 60, 0, this->width() - widgetWidth - 60, this->height());
+	painter.drawLine(this->width() - widgetWidth - 50, 0, this->width() - widgetWidth - 50, this->height());
 	painter.fillRect(QRect(this->width() - widgetWidth - 10, 10, iconSize.width()*cols, iconSize.height()*rows), QBrush(Qt::white));
 	pen.setWidth(2);
 	painter.setPen(pen);
@@ -192,83 +205,128 @@ void makeMazeWindow::mouseMoveEvent(QMouseEvent *event)
 		setCursor(Qt::PointingHandCursor);
 	else
 		setCursor(Qt::ArrowCursor);
+
+	if (isPress)
+	{
+		setCursor(Qt::CrossCursor);
+
+		if (posx - (this->width() - widgetWidth - 10) >= 0 && posy >= 10)
+		{
+			int x = (posx - (this->width() - widgetWidth - 10)) / iconSize.width();
+			int y = (posy - 10) / iconSize.height();
+
+			if (x >= 0 && x < cols && y >= 0 && y < rows)
+			{
+				if (modeGroup->checkedId() == 2)
+				{
+					if (maze[y][x] == "S")
+						startFlag = false;
+					else if (maze[y][x] == "D")
+						endFlag = false;
+
+					maze[y][x] = "X";
+					mazePicLabel[y][x]->setPixmap(wall);
+					mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
+					mazePicLabel[y][x]->show();
+				}
+				else if (modeGroup->checkedId() == 3)
+				{
+					if (maze[y][x] == "S")
+						startFlag = false;
+					else if (maze[y][x] == "D")
+						endFlag = false;
+
+					maze[y][x] = " ";
+					mazePicLabel[y][x]->setPixmap(blank);
+					mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
+					mazePicLabel[y][x]->show();
+
+				}
+			}
+		}
+	}
+}
+
+void makeMazeWindow::mousePressEvent(QMouseEvent *event)
+{
+	int posx = event->pos().x();
+	int posy = event->pos().y();
+	if (event->button() == Qt::LeftButton && posx >= this->width() - widgetWidth - 10 && posx <= this->width() - widgetWidth - 10 + iconSize.width()*cols && posy >= 10 && posy <= 10 + iconSize.height()*rows)
+	{
+		isPress = true;
+	}
 }
 
 void makeMazeWindow::mouseReleaseEvent(QMouseEvent *event)
 {
 	int posx = event->pos().x();
 	int posy = event->pos().y();
-	if (posx - (this->width() - widgetWidth - 10) >= 0 && posy >= 10)
+	if (event->button() == Qt::LeftButton && posx >= this->width() - widgetWidth - 10 && posx <= this->width() - widgetWidth - 10 + iconSize.width()*cols && posy >= 10 && posy <= 10 + iconSize.height()*rows)
 	{
-		int x = (posx - (this->width() - widgetWidth - 10)) / iconSize.width();
-		int y = (posy - 10) / iconSize.height();
+		isPress = false;
+		setCursor(Qt::PointingHandCursor);
 
-		if (x >= 0 && x < cols && y >= 0 && y < rows)
+		if (posx - (this->width() - widgetWidth - 10) >= 0 && posy >= 10)
 		{
-			if (modeGroup->checkedId() == 0)
+			int x = (posx - (this->width() - widgetWidth - 10)) / iconSize.width();
+			int y = (posy - 10) / iconSize.height();
+
+			if (x >= 0 && x < cols && y >= 0 && y < rows)
 			{
-				if (startFlag)
+				if (modeGroup->checkedId() == 0)
 				{
-					QMessageBox::critical(this, s2q("错误"), s2q("只能设定一个起点！"), QMessageBox::Ok);
-					return;
+					if (startFlag)
+					{
+						QMessageBox::critical(this, s2q("错误"), s2q("只能设定一个起点！"), QMessageBox::Ok);
+						return;
+					}
+					startFlag = true;
+					maze[y][x] = "S";
+					mazePicLabel[y][x]->setPixmap(start);
+					mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
+					mazePicLabel[y][x]->show();
 				}
-				startFlag = true;
-				maze[y][x] = "S";
-				QLabel *pic = new QLabel();
-				pic->setScaledContents(true);
-				pic->setPixmap(start);
-				pic->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
-				pic->setParent(rightWidget);
-				pic->show();
-			}
-			else if (modeGroup->checkedId() == 1)
-			{
-				if (endFlag)
+				else if (modeGroup->checkedId() == 1)
 				{
-					QMessageBox::critical(this, s2q("错误"), s2q("只能设定一个终点！"), QMessageBox::Ok);
-					return;
+					if (endFlag)
+					{
+						QMessageBox::critical(this, s2q("错误"), s2q("只能设定一个终点！"), QMessageBox::Ok);
+						return;
+					}
+					endFlag = true;
+					maze[y][x] = "D";
+					mazePicLabel[y][x]->setPixmap(end);
+					mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
+					mazePicLabel[y][x]->show();
 				}
-				endFlag = true;
-				maze[y][x] = "D";
-				QLabel *pic = new QLabel();
-				pic->setScaledContents(true);
-				pic->setPixmap(end);
-				pic->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
-				pic->setParent(rightWidget);
-				pic->show();
-			}
-			else if (modeGroup->checkedId() == 2)
-			{
-				if (maze[y][x] == "S")
-					startFlag = false;
-				else if (maze[y][x] == "D")
-					endFlag = false;
+				else if (modeGroup->checkedId() == 2)
+				{
+					if (maze[y][x] == "S")
+						startFlag = false;
+					else if (maze[y][x] == "D")
+						endFlag = false;
 
-				maze[y][x] = "X";
-				QLabel *pic = new QLabel();
-				pic->setScaledContents(true);
-				pic->setPixmap(wall);
-				pic->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
-				pic->setParent(rightWidget);
-				pic->show();
-			}
-			else if (modeGroup->checkedId() == 3)
-			{
-				if (maze[y][x] == "S")
-					startFlag = false;
-				else if (maze[y][x] == "D")
-					endFlag = false;
+					maze[y][x] = "X";
+					mazePicLabel[y][x]->setPixmap(wall);
+					mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
+					mazePicLabel[y][x]->show();
+				}
+				else if (modeGroup->checkedId() == 3)
+				{
+					if (maze[y][x] == "S")
+						startFlag = false;
+					else if (maze[y][x] == "D")
+						endFlag = false;
 
-				maze[y][x] = " ";
-				QLabel *pic = new QLabel();
-				pic->setScaledContents(true);
-				pic->setPixmap(blank);
-				pic->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
-				pic->setParent(rightWidget);
-				pic->show();
+					maze[y][x] = " ";
+					mazePicLabel[y][x]->setPixmap(blank);
+					mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
+					mazePicLabel[y][x]->show();
 
+				}
 			}
 		}
+
 	}
 }
 
