@@ -269,7 +269,11 @@ void SerachPath::openFileActionSlot()
 	maze = new Maze(fileOpen->getMaze());
 
 	//将打开文件得到的迷宫显示出来
-	delete initLinkLabel;
+	if (initLinkLabel)
+	{
+		delete initLinkLabel;
+		initLinkLabel = NULL;
+	}
 	deleteMap();
 	setMap();
 	setWindow();
