@@ -204,7 +204,10 @@ void makeMazeWindow::mouseMoveEvent(QMouseEvent *event)
 	if (posx >= this->width() - widgetWidth - 10 && posx <= this->width() - widgetWidth - 10 + iconSize.width()*cols && posy >= 10 && posy <= 10 + iconSize.height()*rows)
 		setCursor(Qt::PointingHandCursor);
 	else
+	{
+		isPress = false;
 		setCursor(Qt::ArrowCursor);
+	}
 
 	if (isPress)
 	{
@@ -254,6 +257,64 @@ void makeMazeWindow::mousePressEvent(QMouseEvent *event)
 	if (event->button() == Qt::LeftButton && posx >= this->width() - widgetWidth - 10 && posx <= this->width() - widgetWidth - 10 + iconSize.width()*cols && posy >= 10 && posy <= 10 + iconSize.height()*rows)
 	{
 		isPress = true;
+
+		int x = (posx - (this->width() - widgetWidth - 10)) / iconSize.width();
+		int y = (posy - 10) / iconSize.height();
+
+		if (x >= 0 && x < cols && y >= 0 && y < rows)
+		{
+			if (modeGroup->checkedId() == 0)
+			{
+				if (startFlag)
+				{
+					QMessageBox::critical(this, s2q("错误"), s2q("只能设定一个起点！"), QMessageBox::Ok);
+					return;
+				}
+				startFlag = true;
+				maze[y][x] = "S";
+				mazePicLabel[y][x]->setPixmap(start);
+				mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
+				mazePicLabel[y][x]->show();
+			}
+			else if (modeGroup->checkedId() == 1)
+			{
+				if (endFlag)
+				{
+					QMessageBox::critical(this, s2q("错误"), s2q("只能设定一个终点！"), QMessageBox::Ok);
+					return;
+				}
+				endFlag = true;
+				maze[y][x] = "D";
+				mazePicLabel[y][x]->setPixmap(end);
+				mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
+				mazePicLabel[y][x]->show();
+			}
+			else if (modeGroup->checkedId() == 2)
+			{
+				if (maze[y][x] == "S")
+					startFlag = false;
+				else if (maze[y][x] == "D")
+					endFlag = false;
+
+				maze[y][x] = "X";
+				mazePicLabel[y][x]->setPixmap(wall);
+				mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
+				mazePicLabel[y][x]->show();
+			}
+			else if (modeGroup->checkedId() == 3)
+			{
+				if (maze[y][x] == "S")
+					startFlag = false;
+				else if (maze[y][x] == "D")
+					endFlag = false;
+
+				maze[y][x] = " ";
+				mazePicLabel[y][x]->setPixmap(blank);
+				mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
+				mazePicLabel[y][x]->show();
+
+			}
+		}
 	}
 }
 
@@ -265,68 +326,6 @@ void makeMazeWindow::mouseReleaseEvent(QMouseEvent *event)
 	{
 		isPress = false;
 		setCursor(Qt::PointingHandCursor);
-
-		if (posx - (this->width() - widgetWidth - 10) >= 0 && posy >= 10)
-		{
-			int x = (posx - (this->width() - widgetWidth - 10)) / iconSize.width();
-			int y = (posy - 10) / iconSize.height();
-
-			if (x >= 0 && x < cols && y >= 0 && y < rows)
-			{
-				if (modeGroup->checkedId() == 0)
-				{
-					if (startFlag)
-					{
-						QMessageBox::critical(this, s2q("错误"), s2q("只能设定一个起点！"), QMessageBox::Ok);
-						return;
-					}
-					startFlag = true;
-					maze[y][x] = "S";
-					mazePicLabel[y][x]->setPixmap(start);
-					mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
-					mazePicLabel[y][x]->show();
-				}
-				else if (modeGroup->checkedId() == 1)
-				{
-					if (endFlag)
-					{
-						QMessageBox::critical(this, s2q("错误"), s2q("只能设定一个终点！"), QMessageBox::Ok);
-						return;
-					}
-					endFlag = true;
-					maze[y][x] = "D";
-					mazePicLabel[y][x]->setPixmap(end);
-					mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
-					mazePicLabel[y][x]->show();
-				}
-				else if (modeGroup->checkedId() == 2)
-				{
-					if (maze[y][x] == "S")
-						startFlag = false;
-					else if (maze[y][x] == "D")
-						endFlag = false;
-
-					maze[y][x] = "X";
-					mazePicLabel[y][x]->setPixmap(wall);
-					mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
-					mazePicLabel[y][x]->show();
-				}
-				else if (modeGroup->checkedId() == 3)
-				{
-					if (maze[y][x] == "S")
-						startFlag = false;
-					else if (maze[y][x] == "D")
-						endFlag = false;
-
-					maze[y][x] = " ";
-					mazePicLabel[y][x]->setPixmap(blank);
-					mazePicLabel[y][x]->setGeometry(10 + x * iconSize.width(), 10 + y * iconSize.height(), iconSize.width(), iconSize.height());
-					mazePicLabel[y][x]->show();
-
-				}
-			}
-		}
-
 	}
 }
 
