@@ -689,7 +689,7 @@ void showAboutWindow::mousePressEvent(QMouseEvent *event)
 	if (event->button() == Qt::LeftButton && paintArea.contains(event->pos()))
 	{
 		isPress = true;
-		QApplication::setOverrideCursor(Qt::OpenHandCursor); //设置鼠标样式
+		setCursor(Qt::OpenHandCursor);//设置鼠标样式
 		prePoint = event->pos();
 	}
 }
@@ -699,7 +699,7 @@ void showAboutWindow::mouseReleaseEvent(QMouseEvent *event)
 {
 	if (event->button() == Qt::LeftButton && isPress)
 	{
-		QApplication::setOverrideCursor(Qt::ArrowCursor); //改回鼠标样式
+		setCursor(Qt::ArrowCursor);//改回鼠标样式
 		isPress = false;
 	}
 }
