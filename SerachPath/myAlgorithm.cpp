@@ -432,6 +432,7 @@ Point* idaStar::findPath(Point &startPoint, Point &endPoint)
 		{
 			for (int j = 0; j < maze.cols; j++)
 			{
+				maze.Map[i][j]->parent = NULL;
 				if (maze.Map[i][j]->n < 0)
 					maze.Map[i][j]->n = 0;
 			}
